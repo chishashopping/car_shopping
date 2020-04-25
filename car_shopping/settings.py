@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'car_shopping.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'blog',
+        'NAME': 'car_db',
         'USER': 'root',
         'PASSWORD':'123',
         'HOST':'101.133.237.67',
