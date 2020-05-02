@@ -37,7 +37,7 @@ class Car(models.Model):
     stock = models.IntegerField(blank=True, null=True)
     imgSmall = models.CharField(max_length=200, blank=True, null=True)
     brand = models.CharField(max_length=50, null=True),
-    gbFlage = models.IntegerField(max_length=11,null=True)
+    gbFlage = models.IntegerField(null=True)
 
     class Meta:
         managed = False

@@ -3,7 +3,7 @@ from Home.models import Bootpage, Notice, Car
 
 
 # 引导页
-class BootpageSerializer(serializers.ModelSerializer):
+class BannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bootpage
         fields = "__all__"

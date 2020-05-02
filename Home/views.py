@@ -4,12 +4,12 @@ from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-from Home.homeserializers import BootpageSerializer, NoticeSerializer
+from Home.homeserializers import BannerSerializer, NoticeSerializer
 from Home.models import Bootpage, Notice
 
 
 # 引导页
-class BootpageView(GenericAPIView):
+class BannerView(GenericAPIView):
     """
     GET:
     获取引导页图片信息
@@ -19,7 +19,7 @@ class BootpageView(GenericAPIView):
         img_queryset = Bootpage.objects.all()
 
         # 序列化
-        img_data = BootpageSerializer(img_queryset, many=True)
+        img_data = BannerSerializer(img_queryset, many=True)
         return Response({
             'code':200,
             'msg':'请求成功',
