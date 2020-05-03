@@ -8,7 +8,8 @@
 from django.db import models
 
 
-class BankCard(models.Model):
+class Bank_Card(models.Model):
+    id = models.IntegerField(primary_key=True)
     card_name = models.CharField(max_length=30, blank=True, null=True)
     person_name = models.CharField(max_length=30, blank=True, null=True)
     card_id = models.IntegerField(blank=True, null=True)
@@ -26,6 +27,14 @@ class Bootpage(models.Model):
     class Meta:
         managed = False
         db_table = 'bootpage'
+
+
+    def to_dict(self):
+        return {
+            'bannerid':self.bannerid,
+            'name':self.name,
+            'imgUrl':self.imgUrl
+        }
 
 
 class Car(models.Model):
@@ -127,21 +136,37 @@ class Fuwuzhongxing(models.Model):
 
 
 class Groupbuy(models.Model):
-    g_id = models.AutoField(primary_key=True)
-    g_pattern = models.CharField(max_length=20, blank=True, null=True)
-    g_firm = models.CharField(max_length=20, blank=True, null=True)
-    g_brand = models.CharField(max_length=50, blank=True, null=True)
-    g_style = models.CharField(max_length=50, blank=True, null=True)
-    headcount = models.IntegerField(blank=True, null=True)
-    headtruth = models.IntegerField(blank=True, null=True)
-    r_time = models.DateTimeField(blank=True, null=True)
-    g_img = models.CharField(max_length=30, blank=True, null=True)
-    d_payment = models.FloatField(blank=True, null=True)
-    integral = models.FloatField(blank=True, null=True)
+    gbid = models.IntegerField(primary_key=True)
+    gbbrand = models.CharField(max_length=20,null=True)
+    gbcarType = models.CharField(max_length=20,null=True)
+    gbimg = models.CharField(max_length=50,null=True)
+    gbTotality = models.CharField(max_length=50,null=True)
+    gbPerson = models.CharField(max_length=11,null=True)
+    gbCountDown = models.CharField(max_length=11,null=True)
+    gbStatus = models.IntegerField(blank=True,null=True)
+    gbDate = models.CharField(max_length=20,null=True)
+    gbIntgral = models.FloatField(blank=True, null=True)
+    gbDownPayment = models.FloatField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'groupbuy'
+
+
+    def to_dict(self):
+        return {
+            'gbid':self.gbid,
+            'gbbrand':self.gbbrand,
+            'gbcarType':self.gbcarType,
+            'gbimg':self.gbimg,
+            'gbTotality':self.gbTotality,
+            'gbPerson':self.gbPerson,
+            'gbCountDown':self.gbCountDown,
+            'gbDate' : self.gbDate,
+            'gbIntgral' : self.gbIntgral,
+            'gbDownPayment' : self.gbDownPayment,
+            'gbStatus' : self.gbStatus
+        }
 
 
 class Notice(models.Model):
@@ -154,6 +179,15 @@ class Notice(models.Model):
     class Meta:
         managed = False
         db_table = 'notice'
+
+    def to_dict(self):
+        return {
+            'noticeid':self.noticeid,
+            'noticeTitle':self.noticeTitle,
+            'noticeTime':self.noticeTime,
+            'noticeWord':self.noticeWord,
+            'noticeImg':self.noticeImg
+        }
 
 
 class Opinion(models.Model):
