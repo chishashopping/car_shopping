@@ -5,6 +5,8 @@
 #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+import json
+
 from django.db import models
 
 
@@ -65,21 +67,55 @@ class CarCategory(models.Model):
 class CarDetailed(models.Model):
     id = models.CharField(primary_key=True, max_length=10)
     country_id = models.IntegerField(blank=True, null=True)
-    car_structure = models.CharField(max_length=30, blank=True, null=True)
-    l_w_h = models.CharField(max_length=30, blank=True, null=True)
-    car_volume = models.CharField(max_length=30, blank=True, null=True)
-    drive_id = models.IntegerField(blank=True, null=True)
-    car_engine = models.CharField(max_length=30, blank=True, null=True)
-    car_change = models.CharField(max_length=30, blank=True, null=True)
-    car_oil = models.CharField(max_length=30, blank=True, null=True)
-    car_oilconsumption = models.CharField(max_length=30, blank=True, null=True)
-    car_skylight = models.CharField(max_length=30, blank=True, null=True)
-    car_lighting = models.CharField(max_length=30, blank=True, null=True)
-    car_media = models.CharField(max_length=30, blank=True, null=True)
+    carStructure = models.CharField(max_length=30, blank=True, null=True)
+    carLen = models.FloatField(blank=True, null=True)
+    carWidth = models.FloatField(blank=True, null=True)
+    carHeight = models.FloatField(blank=True, null=True)
+    carEngine = models.CharField(max_length=30,blank=True, null=True)
+    carTransmissionCase = models.CharField(max_length=30,blank=True, null=True)
+    carFuel = models.CharField(max_length=30,blank=True, null=True)
+    carOilConsumption = models.CharField(max_length=30,blank=True, null=True)
+    carSkylight = models.CharField(max_length=30,blank=True, null=True)
+    carLighting = models.CharField(max_length=30,blank=True, null=True)
+    carMultiMedia = models.CharField(max_length=30,blank=True, null=True)
+    carImg = models.CharField(max_length=500,blank=True,null=True)
+    carTitle = models.CharField(max_length=30,blank=True,null=True)
+    carWord = models.CharField(max_length=1000,blank=True,null=True)
+
+
 
     class Meta:
         managed = False
         db_table = 'car_detailed'
+
+    def to_dict(self):
+        obj = self.carImg
+        obj_list = obj.split(';')
+        d_list = []
+        for i in obj_list:
+            k_list = ['carImgid','carImgUrl']
+            v_list = i.split(',')
+            kv_dict = dict(zip(k_list,v_list))
+            d_list.append(kv_dict)
+
+        return {
+            'carStructure':self.carStructure,
+            'carLen':self.carLen,
+            'carWidth':self.carWidth,
+            'carHeight':self.carHeight,
+            'carEngine':self.carEngine,
+            'carTransmissionCase':self.carTransmissionCase,
+            'carFuel':self.carFuel,
+            'carOilConsumption':self.carOilConsumption,
+            'carSkylight':self.carSkylight,
+            'carLighting':self.carLighting,
+            'carMultiMedia':self.carMultiMedia,
+            'carImg':d_list,
+            'carTitle':self.carTitle,
+            'carWord':self.carWord
+
+        }
+
 
 
 class Country(models.Model):

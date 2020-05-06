@@ -10,4 +10,6 @@ urlpatterns = [
     path('search/',views.SearchView.as_view(),name='search'),            # 搜索
     path('groupbuyList/',views.GroupBuyView.as_view(),name='groupbuy'),   # 团购列表
     path('gbProduct/',views.GbProduct.as_view(),name='gbProduct'),       # 团购商品信息
+    path('gbdetail/',views.GbDetailView.as_view(),name='gbdetail'),      # 团购详情详情
+
 ]

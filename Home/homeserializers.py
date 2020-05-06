@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Home.models import Bootpage, Notice, Car
+from Home.models import Bootpage, Notice, Car, Groupbuy
 
 
 # 引导页
@@ -19,6 +19,12 @@ class NoticeSerializer(serializers.ModelSerializer):
 class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
+        fields = "__all__"
+
+# 团购列表
+class GroupBuySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Groupbuy
         fields = "__all__"
 
 

@@ -4,8 +4,8 @@ from django.shortcuts import render
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 
-from Home.homeserializers import BannerSerializer, NoticeSerializer
-from Home.models import Bootpage, Notice, Groupbuy
+from Home.homeserializers import BannerSerializer, NoticeSerializer, GroupBuySerializer
+from Home.models import Bootpage, Notice, Groupbuy, CarDetailed
 import json
 
 
@@ -77,6 +77,10 @@ class GroupBuyView(GenericAPIView):
     GET:
     团购列表
     """
+    queryset = Groupbuy.objects.all()
+    serializer_class = GroupBuySerializer
+    pagination_class = LimitSet
+
     def queryset_to_list(self,querset):
         res = []
         for obj in querset:
@@ -87,7 +91,6 @@ class GroupBuyView(GenericAPIView):
         r_data = request.GET
         count = r_data.get('count')
         gb_queryset = Groupbuy.objects.filter(gbStatus=count)
-        pagination_class = LimitSet
         gb_info = self.queryset_to_list(gb_queryset)
         return Response({
             'code': 200,
@@ -122,3 +125,30 @@ class GbProduct(GenericAPIView):
             'message': '请求成功',
             'data': product_info
         })
+
+
+class GbDetailView(GenericAPIView):
+    """
+    GET:
+    根据访问的商品id获取该商品的详细资料
+    """
+
+    def queryset_to_list(self, querset):
+        res = []
+        for obj in querset:
+            res.append(obj.to_dict())
+        return res
+
+    def get(self, request, *args, **kwargs):
+        r_data = request.GET
+        gbid = r_data.get('gbid')
+        car_querset = CarDetailed.objects.filter(id=gbid)
+
+        car_info = self.queryset_to_list(car_querset)
+
+        return Response({
+            'code': 200,
+            'message': '请求成功',
+            'data': car_info
+        })
+
