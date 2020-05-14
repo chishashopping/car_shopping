@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Home.models import Bootpage, Notice, Car, Groupbuy
+from Home.models import Bootpage, Notice, Car, Groupbuy, Store, Market
 
 
 # 引导页
@@ -27,6 +27,14 @@ class GroupBuySerializer(serializers.ModelSerializer):
         model = Groupbuy
         fields = "__all__"
 
+class StoreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Store
+        fields = "__all__"
 
 
+class MarketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Market
+        fields = "__all__"
 

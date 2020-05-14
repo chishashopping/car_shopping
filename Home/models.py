@@ -205,6 +205,24 @@ class Groupbuy(models.Model):
         }
 
 
+class Market(models.Model):
+    afterid = models.IntegerField(auto_created=True, primary_key=True)
+    address = models.CharField(max_length=128, null=True)
+    afterimg = models.CharField(max_length=128, null=True)
+    name = models.CharField(max_length=64, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'market'
+
+    def to_dict(self):
+        return {
+            'afterid':self.afterid,
+            'address':self.address,
+            'afterimg':self.afterimg,
+            'name':self.name
+        }
+
 class Notice(models.Model):
     noticeid = models.AutoField(primary_key=True)
     noticeTitle = models.CharField(max_length=50)
@@ -268,19 +286,42 @@ class Shangjiaruzhu(models.Model):
 
 
 class Store(models.Model):
-    s_id = models.AutoField(primary_key=True)
-    s_name = models.CharField(max_length=100)
-    s_img = models.CharField(max_length=50)
-    s_address = models.CharField(max_length=100, blank=True, null=True)
-    s_phone = models.CharField(max_length=11, blank=True, null=True)
-    s_server = models.CharField(max_length=100, blank=True, null=True)
-    s_price = models.CharField(max_length=100, blank=True, null=True)
-    s_integrals = models.CharField(max_length=50, blank=True, null=True)
-    s_detail = models.CharField(max_length=100, blank=True, null=True)
+    carShowid = models.IntegerField(auto_created=True, primary_key=True)
+    price = models.IntegerField(blank=True, null=True)
+    stock = models.IntegerField(blank=True, null=True)
+    minimg = models.CharField(max_length=128, blank=True, null=True)
+    style = models.CharField(max_length=64, blank=True, null=True)
+    brand = models.CharField(max_length=64, blank=True, null=True)
+    model = models.CharField(max_length=64, blank=True, null=True)
+    displacement = models.CharField(max_length=32, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'store'
+
+
+    def to_dict(self):
+        title = {
+            'style': self.style,
+            'brand': self.brand,
+            'model': self.brand
+        }
+
+
+        return {
+            "tilte": title,
+            "carShowid": self.carShowid,
+            "price": self.price,
+            "stock": self.stock,
+            "minimg": self.minimg,
+            "style": self.style,
+            "brand": self.brand,
+            "model": self.model,
+            "displacement": self.displacement
+        }
+
+
+
 
 
 class User(models.Model):
