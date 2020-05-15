@@ -173,22 +173,26 @@ class Fuwuzhongxing(models.Model):
 
 class Groupbuy(models.Model):
     gbid = models.IntegerField(primary_key=True)
-    gbbrand = models.CharField(max_length=20,null=True)
-    gbcarType = models.CharField(max_length=20,null=True)
-    gbimg = models.CharField(max_length=50,null=True)
-    gbTotality = models.CharField(max_length=50,null=True)
-    gbPerson = models.CharField(max_length=11,null=True)
-    gbCountDown = models.CharField(max_length=11,null=True)
-    gbStatus = models.IntegerField(blank=True,null=True)
-    gbDate = models.CharField(max_length=20,null=True)
+    gbbrand = models.CharField(max_length=20, null=True)
+    gbcarType = models.CharField(max_length=20, null=True)
+    gbimg = models.CharField(max_length=50, null=True)
+    gbTotality = models.CharField(max_length=50, null=True)
+    gbPerson = models.CharField(max_length=11, null=True)
+    gbCountDown = models.CharField(max_length=11, null=True)
+    gbStatus = models.IntegerField(blank=True, null=True)
+    gbDate = models.CharField(max_length=20, null=True)
     gbIntgral = models.FloatField(blank=True, null=True)
     gbDownPayment = models.FloatField(blank=True, null=True)
+    gborderid = models.IntegerField( blank=True, null=True)
+    gbprice = models.FloatField(blank=True, null=True)
+    gbcarColor = models.CharField(max_length=128, null=True)
+    deposit = models.CharField(max_length=16, null=True)
 
     class Meta:
         managed = False
         db_table = 'groupbuy'
 
-
+    # 团购商品信息数据
     def to_dict(self):
         return {
             'gbid':self.gbid,
@@ -201,8 +205,34 @@ class Groupbuy(models.Model):
             'gbDate' : self.gbDate,
             'gbIntgral' : self.gbIntgral,
             'gbDownPayment' : self.gbDownPayment,
-            'gbStatus' : self.gbStatus
+            'gbStatus' : self.gbStatus,
+
         }
+
+    # 团购确认订单数据
+    def to_dict_gb_form(self):
+        color = self.gbcarColor
+        color_list = color.split('，')
+
+        mortgage = Mortgage.objects.filter(gbid=self.gbid)
+        mortgage_info = self.queryset_to_list(mortgage)
+        return {
+            'gborderid': self.gborderid,
+            'img': self.gbimg,
+            'gbbrand': self.gbbrand,
+            'gbcarType': self.gbcarType,
+            'gbprice': self.gbprice,
+            'gbcarColor': color_list,
+            'deposit': self.deposit,
+            'mortgage': mortgage_info
+
+        }
+
+    def queryset_to_list(self, mortgage):
+        res = []
+        for obj in mortgage:
+            res.append(obj.to_dict())
+        return res
 
 
 class Market(models.Model):
@@ -222,6 +252,27 @@ class Market(models.Model):
             'afterimg':self.afterimg,
             'name':self.name
         }
+
+
+class Mortgage(models.Model):
+    mortGageid = models.IntegerField(auto_created=True, primary_key=True)
+    putDownOn = models.IntegerField(blank=True, null=True)
+    monthly = models.IntegerField(blank=True, null=True)
+    stage = models.IntegerField(blank=True, null=True)
+    gbid = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mortgage'
+
+    def to_dict(self):
+        return {
+            'mortGageid': self.mortGageid,
+            'putDownOn': self.putDownOn,
+            'monthly': self.monthly,
+            'stage': self.stage
+        }
+
 
 class Notice(models.Model):
     noticeid = models.AutoField(primary_key=True)

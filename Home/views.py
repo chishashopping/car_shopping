@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from Home.MyPaginatons import StoreListPager
 from Home.homeserializers import BannerSerializer, NoticeSerializer, GroupBuySerializer, StoreSerializer, \
     MarketSerializer
-from Home.models import Bootpage, Notice, Groupbuy, CarDetailed, Store, Market
+from Home.models import Bootpage, Notice, Groupbuy, CarDetailed, Store, Market, Mortgage
 import json
 
 from Home.paging import LimitSet
@@ -33,8 +33,6 @@ class BannerView(GenericAPIView):
             'msg':'请求成功',
             'data': img_info
         })
-
-
 
 
 
@@ -233,4 +231,30 @@ class MarketView(GenericAPIView):
             "code": 200,
             "message": "请求成功",
             "data": market_info
+        })
+
+
+class ConfirmOrderView(GenericAPIView):
+    """
+    团购确认订单
+    GET:
+    根据提交的商品id，返回相关数据
+    """
+    def queryset_to_list(self, querset):
+        res = []
+        for obj in querset:
+            res.append(obj.to_dict_gb_form())
+        return res
+
+    def get(self, request, *args, **kwargs):
+        r_data = request.GET
+        gbid = r_data.get('gbid')
+        form_querset = Groupbuy.objects.filter(gbid=gbid)
+
+        form_info = self.queryset_to_list(form_querset)
+
+        return Response({
+            'code': 200,
+            'message': '请求成功',
+            'data': form_info
         })

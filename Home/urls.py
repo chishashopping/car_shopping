@@ -13,5 +13,6 @@ urlpatterns = [
     path('gbdetail/', views.GbDetailView.as_view(), name='gbdetail'),           # 团购详情详情
     path('HomeCarshop/', views.HomeCarshopView.as_view(), name='HomeCarshop'),  # 车商城列表
     path('aftermarket/', views.MarketView.as_view(), name='market'),            # 后市场
+    path('comfirmOrder/', views.ConfirmOrderView.as_view(), name='comfirmOrder'),# 团购确认订单
 
 ]
