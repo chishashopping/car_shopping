@@ -1,0 +1,3 @@
+USER_LOGIN_SUCCESS = (200001, '用户登录成功')
+USER_LOGIN_FAILED = (200002, '用户名或密码错误')
+INVALID_LOGIN_INFO = (200003, '请输入有效的登录信息')
